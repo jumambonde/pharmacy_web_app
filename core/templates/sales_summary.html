@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<form method="get" class="row mb-4">
+  <div class="col-auto">
+    <label for="start">From:</label>
+    <input type="date" id="start" name="start" value="{{ start_date }}" class="form-control">
+  </div>
+  <div class="col-auto">
+    <label for="end">To:</label>
+    <input type="date" id="end" name="end" value="{{ end_date }}" class="form-control">
+  </div>
+  <div class="col-auto align-self-end">
+    <button type="submit" class="btn btn-primary">Filter</button>
+  </div>
+</form>
+
+  <h2>Sales Summary</h2>
+
+  <div class="mb-4">
+    <h4>💸 Weekly Total: {{ weekly_total }} TZS</h4>
+    <h4>📅 Monthly Total: {{ monthly_total }} TZS</h4>
+  </div>
+
+  <h5>🗓️ Weekly Sales</h5>
+  <ul>
+    {% for sale in weekly_sales %}
+      <li>{{ sale.date_sold|date:"Y-m-d" }} – {{ sale.drug.name }} x {{ sale.quantity_sold }} = {{ sale.total_amount }} TZS</li>
+    {% endfor %}
+    {% if not weekly_sales %}
+      <li>No sales this week.</li>
+    {% endif %}
+  </ul>
+
+  <h5 class="mt-4">🗓️ Monthly Sales</h5>
+  <ul>
+    {% for sale in monthly_sales %}
+      <li>{{ sale.date_sold|date:"Y-m-d" }} – {{ sale.drug.name }} x {{ sale.quantity_sold }} = {{ sale.total_amount }} TZS</li>
+    {% endfor %}
+    {% if not monthly_sales %}
+      <li>No sales this month.</li>
+    {% endif %}
+  </ul>
+
+{% endblock %}
+
+<a href="{% url 'export_sales_pdf' %}" class="btn btn-secondary mb-3">📄 Export Monthly Sales as PDF</a>

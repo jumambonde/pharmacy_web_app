@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JAMBO MEDICS</title>
+  <!-- Use either CDN OR local Bootstrap, not both -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Header with logo and title -->
+  <header class="bg-success text-white p-3 d-flex align-items-center">
+    <img src="{% static 'images/jambo_logo.png' %}" alt="Jambo Medics Logo" height="60" class="me-3">
+    <h1 class="h3 mb-0">JAMBO MEDICS</h1>
+  </header>
+
+  <!-- Navigation bar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'dashboard' %}">🏥 Home</a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="{% url 'drug_list' %}">💊 Drugs</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'sale_list' %}">📄 Sales</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'sale_add' %}">➕ New Sale</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'profit_report' %}">📈 Profit Report</a></li>
+          {% if request.user.is_authenticated and request.user.is_admin %}
+          <li class="nav-item"><a class="nav-link" href="{% url 'create_staff' %}">➕ Create Staff</a></li>
+          {% endif %}
+        </ul>
+        <span class="navbar-text">
+          Logged in as {{ request.user.username }} |
+          <a href="{% url 'logout' %}">Logout</a>
+        </span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container">
+    {% block content %}
+    {% endblock %}
+  </div>
+
+</body>
+</html>

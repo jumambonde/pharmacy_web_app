@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Profit Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #333; padding: 8px; text-align: left; }
+        h2 { color: green; }
+    </style>
+</head>
+<body>
+    <h2>JAMBO MEDICS - Profit Report</h2>
+    {% if start_date and end_date %}
+      <p>Period: {{ start_date }} to {{ end_date }}</p>
+    {% endif %}
+    <table>
+        <thead>
+            <tr>
+                <th>Drug</th>
+                <th>Quantity Sold</th>
+                <th>Sale Price</th>
+                <th>Total Amount</th>
+                <th>Cost Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sale in sales %}
+                <tr>
+                    <td>{{ sale.drug.name }}</td>
+                    <td>{{ sale.quantity_sold }}</td>
+                    <td>{{ sale.sale_price }}</td>
+                    <td>{{ sale.total_amount }}</td>
+                    <td>{{ sale.drug.cost_price }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p><strong>Total Sales:</strong> {{ total_sales }} TZS</p>
+    <p><strong>Total Cost:</strong> {{ total_cost }} TZS</p>
+    <p><strong>Profit:</strong> {{ profit }} TZS</p>
+</body>
+</html>
+<div class="d-flex justify-content-between mb-3">
+    <form method="get" class="d-flex">
+        <input type="date" name="start" class="form-control me-2" value="{{ start_date }}">
+        <input type="date" name="end" class="form-control me-2" value="{{ end_date }}">
+        <button class="btn btn-primary me-2">Filter</button>
+    </form>
+
+    <a href="{% url 'profit_pdf' %}?start={{ start_date }}&end={{ end_date }}" class="btn btn-danger">⬇️ Download PDF</a>
+</div>
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Profit Report - JAMBO MEDICS</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    h2 { text-align: center; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #999; padding: 8px; text-align: center; }
+  </style>
+</head>
+<body>
+  <h2>📈 Profit Report - JAMBO MEDICS</h2>
+  <p>Date Generated: {{ date_generated }}</p>
+  <p>Period: {{ start_date }} to {{ end_date }}</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Drug</th>
+        <th>Quantity Sold</th>
+        <th>Sale Price</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for sale in sales %}
+        <tr>
+          <td>{{ sale.drug.name }}</td>
+          <td>{{ sale.quantity_sold }}</td>
+          <td>{{ sale.sale_price }}</td>
+          <td>{{ sale.total_amount }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <p><strong>Total Sales:</strong> {{ total_sales }} TZS</p>
+  <p><strong>Total Cost:</strong> {{ total_cost }} TZS</p>
+  <p><strong>Profit:</strong> {{ profit }} TZS</p>
+</body>
+</html>

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>💼 Profit Report</h2>
+
+  <form method="get" class="row mb-3">
+    <div class="col-auto">
+      <label>From:</label>
+      <input type="date" name="start" value="{{ start_date }}" class="form-control">
+    </div>
+    <div class="col-auto">
+      <label>To:</label>
+      <input type="date" name="end" value="{{ end_date }}" class="form-control">
+    </div>
+    <div class="col-auto align-self-end">
+      <button type="submit" class="btn btn-primary">Filter</button>
+    </div>
+  </form>
+
+  <div class="alert alert-info">
+    <p>💰 Total Sales: <strong>{{ total_sales }} TZS</strong></p>
+    <p>💸 Total Cost: <strong>{{ total_cost }} TZS</strong></p>
+    <p>📈 Profit: <strong>{{ profit }} TZS</strong></p>
+  </div>
+
+  <h5>Sales Breakdown:</h5>
+  <ul>
+    {% for sale in sales %}
+      <li>{{ sale.date_sold|date:"Y-m-d" }} – {{ sale.drug.name }} x {{ sale.quantity_sold }} = {{ sale.total_amount }} TZS</li>
+    {% empty %}
+      <li>No sales for this period.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

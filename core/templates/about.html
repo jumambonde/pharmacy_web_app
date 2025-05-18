@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>📸 Acknowledgements</h2>
+<div class="row">
+  {% for ack in acknowledgements %}
+    <div class="col-md-4 text-center">
+      <img src="{{ ack.image.url }}" class="img-fluid" alt="{{ ack.title }}">
+      <h5>{{ ack.title }}</h5>
+      <p>{{ ack.description }}</p>
+    </div>
+  {% endfor %}
+</div>
+
+<h2>💼 Investors</h2>
+<div class="row">
+  {% for investor in investors %}
+    <div class="col-md-4 text-center">
+      <img src="{{ investor.image.url }}" class="img-fluid" alt="{{ investor.name }}">
+      <h5>{{ investor.name }}</h5>
+      <p>{{ investor.description }}</p>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

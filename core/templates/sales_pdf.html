@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: DejaVu Sans; font-size: 12px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #000; padding: 5px; text-align: left; }
+  </style>
+</head>
+<body>
+  <h2>Sales Report</h2>
+  <p>Date: {{ date_generated }}</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Drug</th>
+        <th>Quantity</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for sale in sales %}
+      <tr>
+        <td>{{ sale.date_sold }}</td>
+        <td>{{ sale.drug.name }}</td>
+        <td>{{ sale.quantity_sold }}</td>
+        <td>{{ sale.total_amount }} TZS</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>

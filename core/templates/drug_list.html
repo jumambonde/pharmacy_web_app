@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block content %}
+{% if expired %}
+  <div class="alert alert-danger">
+    <strong>⚠️ Expired Drugs:</strong>
+    <ul>
+      {% for drug in expired %}
+        <li>{{ drug.name }} (expired {{ drug.expiry_date }})</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+{% if expiring_soon %}
+  <div class="alert alert-warning">
+    <strong>⏳ Near Expiry (within 30 days):</strong>
+    <ul>
+      {% for drug in expiring_soon %}
+        <li>{{ drug.name }} (expiring {{ drug.expiry_date }})</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+  <h2>Drug Inventory</h2>
+
+  <!-- 📝 Legend for alerts -->
+  <div class="alert alert-info">
+    <strong>Note:</strong>
+    <span style="color:red;">Red = Low stock</span>,
+    <span style="color:orange;">Yellow = Expiring soon</span>
+  </div>
+
+  <a class="btn btn-primary mb-3" href="{% url 'drug_add' %}">+ Add New Drug</a>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Batch</th>
+        <th>Expiry</th>
+        <th>Qty</th>
+        <th>Cost</th>
+        <th>Selling</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for drug in drugs %}
+      <tr
+        {% if drug.is_low_stock %} style="background-color: #f8d7da;"  <!-- red for low stock -->
+        {% elif drug.is_expiring_soon %} style="background-color: #fff3cd;"  <!-- yellow for expiring -->
+        {% endif %}
+      >
+        <td>{{ drug.name }}</td>
+        <td>{{ drug.batch_number }}</td>
+        <td>{{ drug.expiry_date }}</td>
+        <td>{{ drug.quantity }}</td>
+        <td>{{ drug.cost_price }}</td>
+        <td>{{ drug.selling_price }}</td>
+        <td>
+          <a href="{% url 'drug_edit' drug.pk %}" class="btn btn-sm btn-warning">Edit</a>
+          <a href="{% url 'drug_delete' drug.pk %}" class="btn btn-sm btn-danger">Delete</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="7">No drugs in inventory.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

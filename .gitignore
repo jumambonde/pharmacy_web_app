@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+env/
+
+# Django database
+db.sqlite3
+
+# Media uploads (optional, unless you want to keep images out of version control)
+media/
+
+# VS Code settings (optional)
+.vscode/
+
+# OS-specific
+.DS_Store
+Thumbs.db

@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2>📊 Dashboard Overview</h2>
+  <p>Welcome, {{ request.user.username }}!</p>
+  <p>You are logged in as: {{ request.user.role }}</p>
+  <a href="{% url 'logout' %}">Logout</a>
+  <a href="{% url 'debtor_add' %}" class="btn btn-warning">➕ Add Debtor</a>
+
+  <div class="mt-4">
+    <a href="{% url 'sale_add' %}" class="btn btn-primary">➕ Make a Sale</a>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-md-4">
+      <div class="card bg-light p-3">
+        <h4>Total Drugs in Stock</h4>
+        <p><strong>{{ total_drugs }}</strong></p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card bg-light p-3">
+        <h4>Sales Today</h4>
+        <p><strong>{{ today_sales }} TZS</strong></p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card bg-light p-3">
+        <h4>Sales This Month</h4>
+        <p><strong>{{ monthly_sales }} TZS</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Debtors Section -->
+  <h4 class="mt-5">💳 Debtors</h4>
+  <ul class="list-group mb-4">
+    {% for sale in debtors %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        {{ sale.drug.name }} ({{ sale.date_sold }})
+        <span class="badge bg-danger">
+          Owes: {{ sale.debt_amount|floatformat:0 }} TZS
+        </span>
+      </li>
+    {% empty %}
+      <li class="list-group-item">No debtors at the moment.</li>
+    {% endfor %}
+  </ul>
+
+  <!-- Recent Debtors -->
+  <h5>💳 Recent Debtors</h5>
+  <ul>
+    {% for debtor in recent_debtors %}
+      <li>{{ debtor.drug.name }} ({{ debtor.date_sold }})<br>Owes: {{ debtor.total_amount }} TZS</li>
+    {% empty %}
+      <li>No debtor records found.</li>
+    {% endfor %}
+  </ul>
+
+  <!-- Acknowledgement Section -->
+  <div class="row mt-5">
+    <div class="col-md-8">
+      <!-- Add more main content here if needed -->
+    </div>
+
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header bg-light">
+          🙏 <strong>Acknowledgement</strong>
+        </div>
+        <div class="card-body text-center">
+          <img src="/media/acknowledgement.jpg" alt="Acknowledgement" class="img-fluid">
+          <p class="text-muted">We appreciate our team, supporters, and community for their continued dedication and trust.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-md-4 mt-4">
+  <div class="card">
+    <div class="card-header bg-light">
+      💼 <strong>Investor</strong>
+    </div>
+    <div class="card-body text-center">
+      <img src="/media/investor.jpg" class="img-fluid mb-2" alt="Investor Image">
+      <p class="text-muted">We thank our investors for making this project possible.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
